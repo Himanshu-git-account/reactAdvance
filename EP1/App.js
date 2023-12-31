@@ -1,33 +1,41 @@
 import React from 'react'
-import { ReactDOM } from 'react-dom';
+import  ReactDOM  from 'react-dom/client';
 
-//Using React
+const heading = React.createElement("h1",{id:"heading"},"This is React createElement");
 
-const heading2 = React.createElement("div",
-    { id: "container", xyz: "abc" },
-    [React.createElement("h1",
-        { id: "heading", xyz: "abc" },
-        "This is React"),
-        React.createElement("h2",
-        { id: "heading2", xyz: "abc" },
-        "This is React2")]); // or we can have array also
+console.log(heading)
 
-console.log(heading2) //It returns an Object, not an HTML element
+//JSX is not HTML inside JS , but its a HTML like syntax
+// jsxHeading  =>(Babel) =>React.createElement(object) => HTMLElement(browser understand)
 
-const root2 = ReactDOM.createRoot(document.getElementById("rootContainer"));
 
-console.log(root2);  //It returns an Object
-root2.render(heading2);
+const Title = () =>{
+    return <div >
+        This is Title
+    </div>
+}
 
-//lets add second Root
+// If the APi is passing any malicious code then the jSX automatically sanituze it before rendering. This prevents XSS-attacks
+const dataFromAPi = 1000;
 
-const divTag = React.createElement("div",{},"This is second root");
-const root3 = ReactDOM.createRoot(document.getElementById("heading"));
-root3.render(divTag); 
 
-//using JS . This code will be replaced by React 
+//Component Composition - Rendering one component inside another
 
-const heading = document.createElement("h1");
-heading.innerHTML = "Hello World from JS";
-const root = document.getElementById("rootContainer");
-root.appendChild(heading);
+// All the three inside it are same
+const HeadingComponent = () => (
+    <div >
+        {dataFromAPi} 
+        <Title />
+        <Title></Title>
+        {Title()}
+        <h1>This is headoingh</h1>
+    </div>
+)
+
+const jsxHeading = <h1>This is React JSX</h1>
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+// root.render(HeadingComponent()); // You can also call the function as at the end of the day all functional component is JS function
+
+root.render(<HeadingComponent />)
