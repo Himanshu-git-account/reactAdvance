@@ -1,12 +1,48 @@
-#heading{
-    color:red
-}
 
-#container{
-    background-color: aqua;
-}
-
-.header-container{
+.headerContainer{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+.navContainer>ul{
+    display: flex;
+    list-style-type: none;
+    font-size: 20px;
+}
+.navContainer>ul>li{
+    margin: 0px 10px;
+}
+.footerContainer{
+    background-color: black;
+}
+.resContainer{
+    background-color: #fafafa;
+    margin: 10px 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.resDetailsCard{
+
+    border: 1px solid transparent;
+    width: 220px;
+    height: 450px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #edf2fb;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+.resDetailsCard:hover{
+    border-radius: 5%;
+    background-color: #fafafa;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+}
+.resDetailsCard>.imgContainer{
+    width: 100%;
+    height: 40%;
+    border-radius: 5%;
+}
+.footerContainer{
+    height:100px;
+    color: #edf2fb;
 }
