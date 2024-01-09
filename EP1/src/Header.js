@@ -3,7 +3,6 @@ import { LOGO_URL } from "./utils/constant";
 
 const Header = () => {
     const [btnName,setBtnName] =useState("Login");
-    console.log("render")
   return (
     <div className="headerContainer">
       <img width={"100px"} height={"100px"} src={LOGO_URL}></img>

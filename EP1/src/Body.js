@@ -14,6 +14,11 @@ export const Body = () => {
     fetchData();
   }, []);
 
+  useEffect(()=>{
+
+    console.log("useEffectr inside filtered res list")
+  },[filteredResList])
+
  
 
   const handleScroll = () =>{
