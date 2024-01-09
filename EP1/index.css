@@ -28,13 +28,14 @@
     height: 450px;
     margin: 10px;
     padding: 10px;
+    border-radius: 5%;
     background-color: #edf2fb;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.3s ease-in-out;
 }
 .resDetailsCard:hover{
     cursor: pointer;
-    border-radius: 5%;
+ 
     background-color: #fafafa;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 }
@@ -51,4 +52,39 @@
     margin: 10px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.shimmer-card-card{
+    height: 400px;
+    width: 200px;
+    margin: 10px;
+    background:linear-gradient(-45deg, #edf2fb, white);
+	background-size: 400% 400%;
+	animation: gradient 0.5s ease infinite;;
+
+}
+.shimmer-card-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.primary-button{
+    padding: 0px 10px;
+    cursor: pointer;
+}
+
+.filter{
+    display: flex;
 }
