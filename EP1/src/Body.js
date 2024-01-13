@@ -3,52 +3,63 @@ import RestaurantDetails from "./RestaurantDetails";
 
 import { restaurantList } from "./utils/mockData";
 import ShimmerCard from "./utils/Shimmer/ShimmerCard";
+import { debounceFunc } from "./utils/commonUtils";
 
 export const Body = () => {
   const [resList, setResList] = useState([]);
-  const [filteredResList, setFilteredResList] = useState([])
+  const [filteredResList, setFilteredResList] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     // console.log("useEffect Rendered");
     fetchData();
   }, []);
 
-  useEffect(()=>{
-
-    console.log("useEffectr inside filtered res list")
-  },[filteredResList])
-
- 
-
-  const handleScroll = () =>{
-    if(window.innerHeight+document.documentElement.scrollTop === document.documentElement.offsetHeight){
-        console.log("reachedLasat");
-        fetchAdditionaldata();
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 100 && !loader) {
+      fetchData();
     }
-  }
+  };
 
-  window.addEventListener("scroll",handleScroll);
+  useEffect(() => {
+    console.log("useEffectr inside filtered res list");
+  }, [filteredResList]);
 
-  const fetchAdditionaldata = () =>{
-    //for ingfinite scroll
-  }
+  useEffect(() => {
+    const handleScrollDebounced = debounceFunc(handleScroll, 300);
+    window.addEventListener("scroll", handleScrollDebounced);
+
+    // Cleanup function to remove the old event listener
+    return () => {
+      window.removeEventListener("scroll", handleScrollDebounced);
+    };
+  }, [handleScroll]);
 
   console.log("Body rendered");
 
   const fetchData = async () => {
     try {
+      setLoader(true);
       const data = await fetch(
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.853532&lng=77.663033&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
       );
       const jsonData = await data.json();
-      setResList(
-        jsonData?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
-      setFilteredResList(jsonData?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+      setResList((prevResList) => [
+        ...prevResList,
+        ...jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants,
+      ]);
+      setFilteredResList((prevResList) => [
+        ...prevResList,
+        ...jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants,
+      ]);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -61,7 +72,6 @@ export const Body = () => {
 
   const filterTopRes = () => {
     const newResList = resList.filter((res) => res.info.avgRating > 4);
-
     setResList(newResList);
   };
   return resList.length === 0 ? (
