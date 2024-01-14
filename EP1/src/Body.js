@@ -4,6 +4,7 @@ import RestaurantDetails from "./RestaurantDetails";
 import { restaurantList } from "./utils/mockData";
 import ShimmerCard from "./utils/Shimmer/ShimmerCard";
 import { debounceFunc } from "./utils/commonUtils";
+import { Link } from "react-router-dom";
 
 export const Body = () => {
   const [resList, setResList] = useState([]);
@@ -12,7 +13,6 @@ export const Body = () => {
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    // console.log("useEffect Rendered");
     fetchData();
   }, []);
 
@@ -23,21 +23,17 @@ export const Body = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("useEffectr inside filtered res list");
-  }, [filteredResList]);
+  useEffect(() => {}, [filteredResList]);
 
-  useEffect(() => {
-    const handleScrollDebounced = debounceFunc(handleScroll, 300);
-    window.addEventListener("scroll", handleScrollDebounced);
+  // useEffect(() => {
+  //   const handleScrollDebounced = debounceFunc(handleScroll, 300);
+  //   window.addEventListener("scroll", handleScrollDebounced);
 
-    // Cleanup function to remove the old event listener
-    return () => {
-      window.removeEventListener("scroll", handleScrollDebounced);
-    };
-  }, [handleScroll]);
-
-  console.log("Body rendered");
+  //   // Cleanup function to remove the old event listener
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScrollDebounced);
+  //   };
+  // }, [handleScroll]);
 
   const fetchData = async () => {
     try {
@@ -94,7 +90,6 @@ export const Body = () => {
                   .includes(searchText.toLowerCase());
               });
               setFilteredResList(filteredList);
-              console.log(resList);
             }}
           >
             Search
@@ -106,10 +101,12 @@ export const Body = () => {
       </div>
       <div className="resContainer">
         {filteredResList.map((restaurant) => (
-          <RestaurantDetails
-            key={restaurant.info.id}
-            restaurantObj={restaurant}
-          />
+          <Link to={"/restaurant/" + restaurant.info.id}>
+            <RestaurantDetails
+              key={restaurant.info.id}
+              restaurantObj={restaurant}
+            />
+          </Link>
         ))}
       </div>
     </div>

@@ -45,7 +45,9 @@
     border-radius: 5%;
 }
 .footerContainer{
+    margin-top: auto;
     height:100px;
+    width: 100vw;
     color: #edf2fb;
 }
 .filter-btn{
@@ -87,4 +89,63 @@
 
 .filter{
     display: flex;
+}
+
+.errorContainer{
+    flex-direction: column;
+    background-color: #B6174B;
+    color: #edf2fb;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.restaurantMenuContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  
+}
+
+.restaurantBody{
+    width: 50vw;
+    height: 80vh;
+    background: #fafafa;
+    padding: 20px;
+}
+.starRating{
+   float: right;
+   background-color: #3d9b6d;
+   color: white;
+}
+
+.accordianContainer{
+    margin-top: 10px;
+    background: #fafafa;
+}
+.accHeading{
+   background: #edf2fb;
+    padding: 10px;
+}
+.accBody{
+    padding: 10px;
+}
+
+.menuCard{
+    background-color: white;
+    margin:10px;
+    display: flex;
+    height: 20vh;
+}
+
+a{
+    text-decoration: none;
+}
+a:visited{
+    color: black;
+}
+a:link{
+    color: black;
 }
