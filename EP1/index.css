@@ -149,3 +149,10 @@ a:visited{
 a:link{
     color: black;
 }
+
+.userCard{
+    padding: 10px;
+    margin: 20px 0px;
+    width: 30vw;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+}
