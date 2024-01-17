@@ -5,12 +5,15 @@ import { restaurantList } from "./utils/mockData";
 import ShimmerCard from "./utils/Shimmer/ShimmerCard";
 import { debounceFunc } from "./utils/commonUtils";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "./utils/Shimmer/useOnlineStatus";
 
 export const Body = () => {
   const [resList, setResList] = useState([]);
   const [filteredResList, setFilteredResList] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loader, setLoader] = useState(false);
+
+  const [onlineStatus] = useOnlineStatus();
 
   useEffect(() => {
     fetchData();
@@ -70,6 +73,10 @@ export const Body = () => {
     const newResList = resList.filter((res) => res.info.avgRating > 4);
     setResList(newResList);
   };
+
+  if(!onlineStatus){
+    return <div>Its the network issue</div>
+  }
   return resList.length === 0 ? (
     <ShimmerCard />
   ) : (
