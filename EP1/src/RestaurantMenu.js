@@ -1,31 +1,14 @@
-import { useEffect, useState } from "react";
-import {useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom';
 import Accordian from "./utils/Accordian";
 import ShimmerCard from "./utils/Shimmer/ShimmerCard";
+import useRestaurantMenu from "./utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
-  const [menuList, setMenuList] = useState([]);
-  const [infoDetails, setInfoDetails] = useState({});
+
   const {id} = useParams();
 
+  const [menuList,infoDetails] = useRestaurantMenu(id);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.853532&lng=77.663033&restaurantId="
-      +id
-    );
-    const jsonData = await data.json();
-    const info = jsonData?.data?.cards[0].card.card.info;
-    setInfoDetails(info);
-    const menuData =
-      jsonData?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR.cards;
-    menuData.shift();
-    setMenuList(menuData);
-  };
   if (menuList.length === 0) return <ShimmerCard />;
   const { name, cuisines, costForTwoMessage, avgRatingString } = infoDetails;
   return (
