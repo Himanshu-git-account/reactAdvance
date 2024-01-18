@@ -74,22 +74,23 @@ export const Body = () => {
     setResList(newResList);
   };
 
-  if(!onlineStatus){
-    return <div>Its the network issue</div>
+  if (!onlineStatus) {
+    return <div>Its the network issue</div>;
   }
   return resList.length === 0 ? (
     <ShimmerCard />
   ) : (
-    <div className="bodyContainer">
-      <div className="filter">
+    <div className="bg-slate-100">
+      <div className="flex m-4">
         <div className="search-container">
           <input
             type="text"
+            className="border border-solid border-slate-600 px-4 py-2"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
           <button
-            className="filter-button"
+            className="bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer px-4 py-2"
             onClick={() => {
               const filteredList = resList.filter((res) => {
                 return res.info.name
@@ -102,11 +103,13 @@ export const Body = () => {
             Search
           </button>
         </div>
-        <button className="filter-btn" onClick={filterTopRes}>
-          Top Rated Restaurant
-        </button>
+        <div>
+          <button className="mx-4 text-slate-50 bg-slate-400 hover:text-slate-50 hover:bg-red-700 cursor-pointer px-4 py-2" onClick={filterTopRes}>
+            Top Rated Restaurant
+          </button>
+        </div>
       </div>
-      <div className="resContainer">
+      <div className="flex flex-wrap">
         {filteredResList.map((restaurant) => (
           <Link to={"/restaurant/" + restaurant.info.id}>
             <RestaurantDetails

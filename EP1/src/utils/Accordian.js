@@ -5,24 +5,24 @@ const Accordian = ({ heading, body }) => {
   const IMAGE_CDN =
     "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
   return (
-    <div className="accordianContainer">
-      <div className="accHeading" onClick={() => setIsOpen(!isOpen)}>
+    <div className="mt-3 bg-slate-200">
+      <div className="p-3 bg-red-600 text-slate-50" onClick={() => setIsOpen(!isOpen)}>
         {heading}
       </div>
       {isOpen && (
-        <div className="accBody">
+        <div className="p-3">
           {body.map((item) => {
             return (
-              <div key={item?.card?.info?.id} className="menuCard">
-                <div className="menuCardDetails">
-                  <h2>{item?.card?.info?.name}</h2>
+              <div key={item?.card?.info?.id} className="mb-1 border-b-[3px] border-red-800 m-3 flex ">
+                <div className="w-9/12">
+                  <h2 className="font-medium">{item?.card?.info?.name}</h2>
                   <div>₹{item?.card?.info?.price / 100}</div>
                   <div>{item?.card?.info?.description}</div>
                 </div>
-                <div className="menuCardImage">
+                <div className="w-3/12">
                   <img
-                
-                    width={"100px"}
+                  className=""
+                   
                     alt="menuImage"
                     src={`${IMAGE_CDN + item?.card?.info?.imageId}`}
                   />

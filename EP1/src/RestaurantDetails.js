@@ -4,14 +4,14 @@ const RestaurantDetails = (props) => {
 
     const { name, cuisines, avgRating, costForTwo, sla, cloudinaryImageId } = props?.restaurantObj?.info;
     return (
-        <div className='resDetailsCard'>
-            <img className="imgContainer" src={IMG_CDN_URL + cloudinaryImageId}></img>
+        <div className='bg-slate-2 00 cursor-pointer  w-56 h-{400px} m-2 rounded-md hover:bg-red-700 hover:text-slate-50 hover:shadow-lg'>
+            <img className="w-56 h-40" src={IMG_CDN_URL + cloudinaryImageId}></img>
             <div className='resDetails'>
-                <h3>{name}</h3>
-                <h4>{cuisines.join(", ")}</h4>
-                <h4>{avgRating}</h4>
-                <h4>{costForTwo}</h4>
-                <h4>{sla.deliveryTime} minutes</h4>
+                <h3 className="text-lg font-medium pl-1">{name}</h3>
+                <h4 className="pl-1">{cuisines.join(", ")}</h4>
+                <h4 className="pl-1">{avgRating}</h4>
+                <h4 className="pl-1">{costForTwo}</h4>
+                <h4 className="pl-1">{sla.deliveryTime} minutes</h4>
             </div>
         </div>
     )
