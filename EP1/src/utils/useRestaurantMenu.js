@@ -18,8 +18,11 @@ const useRestaurantMenu = (id) => {
     setInfoDetails(info);
     const menuData =
       jsonData?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR.cards;
-    menuData.shift();
-    setMenuList(menuData);
+
+    const filteredMenu = menuData.filter((menu)=>{
+      return menu.card.card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    })
+    setMenuList(filteredMenu);
   };
 
   return [menuList, infoDetails];

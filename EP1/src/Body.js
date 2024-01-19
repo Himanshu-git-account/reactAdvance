@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RestaurantDetails from "./RestaurantDetails";
+import RestaurantDetails,{withVegOnly} from "./RestaurantDetails";
 
 import { restaurantList } from "./utils/mockData";
 import ShimmerCard from "./utils/Shimmer/ShimmerCard";
@@ -14,6 +14,8 @@ export const Body = () => {
   const [loader, setLoader] = useState(false);
 
   const [onlineStatus] = useOnlineStatus();
+
+  const RestaurantDetailsHOC = withVegOnly(RestaurantDetails)
 
   useEffect(() => {
     fetchData();
@@ -45,14 +47,14 @@ export const Body = () => {
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.853532&lng=77.663033&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
       );
       const jsonData = await data.json();
-      setResList((prevResList) => [
-        ...prevResList,
-        ...jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+      setResList(() => [
+   
+        ...jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants,
       ]);
-      setFilteredResList((prevResList) => [
-        ...prevResList,
-        ...jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+      setFilteredResList(() => [
+  
+        ...jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants,
       ]);
     } catch (err) {
@@ -77,6 +79,7 @@ export const Body = () => {
   if (!onlineStatus) {
     return <div>Its the network issue</div>;
   }
+
   return resList.length === 0 ? (
     <ShimmerCard />
   ) : (
@@ -112,10 +115,12 @@ export const Body = () => {
       <div className="flex flex-wrap">
         {filteredResList.map((restaurant) => (
           <Link to={"/restaurant/" + restaurant.info.id}>
-            <RestaurantDetails
+            {restaurant.info.veg?<RestaurantDetailsHOC   key={restaurant.info.id}
+              restaurantObj={restaurant}/>:   <RestaurantDetails
               key={restaurant.info.id}
               restaurantObj={restaurant}
-            />
+            />}
+          
           </Link>
         ))}
       </div>
