@@ -1,13 +1,18 @@
+
 import {useParams} from 'react-router-dom';
-import Accordian from "./utils/Accordian";
+import RestaurantCategory from "./utils/RestaurantCategory";
 import ShimmerCard from "./utils/Shimmer/ShimmerCard";
 import useRestaurantMenu from "./utils/useRestaurantMenu";
+import { useState } from 'react';
+
 
 const RestaurantMenu = () => {
 
   const {id} = useParams();
 
   const [menuList,infoDetails] = useRestaurantMenu(id);
+  const [isOpen,setIsOpen] = useState(null)
+
 
   if (menuList.length === 0) return <ShimmerCard />;
   const { name, cuisines, costForTwoMessage, avgRatingString } = infoDetails;
@@ -19,11 +24,13 @@ const RestaurantMenu = () => {
         <span>{cuisines.join(", ")}</span>
         <span className="float-right bg-green-500 px-2 py-1 rounded-md text-white">{avgRatingString} rating</span>
         <div>{costForTwoMessage}</div>
-        {menuList.map((item) => {
+        {menuList.map((item,index) => {
           return (
-            <Accordian key={item?.card?.card?.id}
+            <RestaurantCategory key={index}
+              isOpen={index===isOpen && true}
               heading={item?.card?.card?.title}
               body={item?.card?.card?.itemCards}
+              handleIsOpen={(()=>{setIsOpen(index)})}
             />
           );
         })}

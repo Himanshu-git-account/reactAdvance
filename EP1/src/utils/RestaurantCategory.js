@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-const Accordian = ({ heading, body }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const RestaurantCategory = ({ heading, body, isOpen,handleIsOpen}) => {
+ 
   const IMAGE_CDN =
     "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
   return (
     <div className="mt-3 bg-slate-200">
-      <div className="p-3 bg-red-600 text-slate-50 rounded-md cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+      <div className="p-3 bg-red-600 text-slate-50 rounded-md cursor-pointer" onClick={handleIsOpen}>
         <span>{heading} ({body && body.length}) </span>
         <span className="float-right">{!isOpen?"⬇️":"🔼 "}</span>
         
@@ -20,7 +20,7 @@ const Accordian = ({ heading, body }) => {
                   <div>{item?.card?.info?.isVeg ?" 💚 ":" ❤️ "}</div>
                   <h2 className="font-medium">{item?.card?.info?.name}</h2>
                   <div>₹{item?.card?.info?.price ? item?.card?.info?.price/100:item?.card?.info?.defaultPrice/100}</div>
-                  <div className="text-gray-500 text-sm">{item?.card?.info?.description}</div>
+                  <div className="text-gray-500 text-sm pr-3">{item?.card?.info?.description}</div>
                 </div>
                 <div className="w-3/12 ">
                  
@@ -30,7 +30,7 @@ const Accordian = ({ heading, body }) => {
                     alt="menuImage"
                     src={`${IMAGE_CDN + item?.card?.info?.imageId}`}
                   />
-                   <button className="bg-white text-red-500  w-full">Add +</button>
+                   <button className="bg-black text-white w-full rounded-md ">Add +</button>
              
                 </div>
               </div>
@@ -42,4 +42,4 @@ const Accordian = ({ heading, body }) => {
   );
 };
 
-export default Accordian;
+export default RestaurantCategory;

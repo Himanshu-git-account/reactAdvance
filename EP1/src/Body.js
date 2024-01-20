@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import RestaurantDetails,{withVegOnly} from "./RestaurantDetails";
 
 import { restaurantList } from "./utils/mockData";
@@ -6,6 +6,8 @@ import ShimmerCard from "./utils/Shimmer/ShimmerCard";
 import { debounceFunc } from "./utils/commonUtils";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "./utils/Shimmer/useOnlineStatus";
+import UserContext from "./utils/UserContext";
+
 
 export const Body = () => {
   const [resList, setResList] = useState([]);
@@ -14,6 +16,7 @@ export const Body = () => {
   const [loader, setLoader] = useState(false);
 
   const [onlineStatus] = useOnlineStatus();
+  const {loggedInUser,setLoggedUser} = useContext(UserContext)
 
   const RestaurantDetailsHOC = withVegOnly(RestaurantDetails)
 
@@ -111,13 +114,15 @@ export const Body = () => {
             Top Rated Restaurant
           </button>
         </div>
+        <div>
+          <input  className="bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer px-4 py-2" type="text" value={loggedInUser} onChange={(e)=>setLoggedUser(e.target.value)} />
+        </div>
       </div>
       <div className="flex flex-wrap">
         {filteredResList.map((restaurant) => (
-          <Link to={"/restaurant/" + restaurant.info.id}>
-            {restaurant.info.veg?<RestaurantDetailsHOC   key={restaurant.info.id}
+          <Link to={"/restaurant/" + restaurant.info.id} key={restaurant.info.id}>
+            {restaurant.info.veg?<RestaurantDetailsHOC   
               restaurantObj={restaurant}/>:   <RestaurantDetails
-              key={restaurant.info.id}
               restaurantObj={restaurant}
             />}
           
