@@ -30,6 +30,7 @@ const Header = () => {
           </li>
           <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
             <button
+            className=" bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700"
               onClick={() =>
                 btnName === "Login" ? setBtnName("Logout") : setBtnName("Login")
               }
