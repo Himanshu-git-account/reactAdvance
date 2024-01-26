@@ -1,9 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../redux/cartSlice";
 
 const RestaurantCategory = ({ heading, body, isOpen,handleIsOpen}) => {
  
   const IMAGE_CDN =
     "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
+
+  const dispatch = useDispatch()
+
+  const hadleCartAddition = (item) =>{
+    console.log(item)
+    dispatch(addItem(item))
+  }
   return (
     <div className="mt-3 bg-slate-200">
       <div className="p-3 bg-red-600 text-slate-50 rounded-md cursor-pointer" onClick={handleIsOpen}>
@@ -30,7 +39,7 @@ const RestaurantCategory = ({ heading, body, isOpen,handleIsOpen}) => {
                     alt="menuImage"
                     src={`${IMAGE_CDN + item?.card?.info?.imageId}`}
                   />
-                   <button className="bg-black text-white w-full rounded-md ">Add +</button>
+                   <button onClick={()=>hadleCartAddition(item)} className="bg-black text-white w-full rounded-md ">Add +</button>
              
                 </div>
               </div>

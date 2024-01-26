@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { LOGO_URL } from "./utils/constant";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "./utils/Shimmer/useOnlineStatus";
@@ -8,6 +9,8 @@ const Header = () => {
   const [btnName, setBtnName] = useState("Login");
   const {loggedInUser} = useContext(UserContext)
   const [onlineStatus] = useOnlineStatus();
+
+  const cartItem = useSelector((state)=>state.cart.items)
   return (
     <div className="flex justify-between bg-red-700 text-slate-50 text-xl">
       <img className="w-32 h-32" src={LOGO_URL}></img>
@@ -17,16 +20,16 @@ const Header = () => {
             {onlineStatus ? "🟢" : "🔴"}
           </li>
           <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
-            <Link to="/">Home</Link>{" "}
+            <Link to="/">Home</Link>
           </li>
           <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
-            <Link to="/about">About Us</Link>{" "}
+            <Link to="/about">About Us</Link>
           </li>
           <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
             <Link to="/contact">Contact Us</Link>
           </li>
           <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
-            Cart
+           <Link to="/cart"> Cart - {cartItem.length}</Link>
           </li>
           <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
             <button
