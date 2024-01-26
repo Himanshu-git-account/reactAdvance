@@ -1,22 +1,47 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { LOGO_URL } from "./utils/constant";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "./utils/Shimmer/useOnlineStatus";
+import UserContext from "./utils/UserContext";
 
 const Header = () => {
-    const [btnName,setBtnName] =useState("Login");
-    const [onlineStatus] = useOnlineStatus();
+  const [btnName, setBtnName] = useState("Login");
+  const {loggedInUser} = useContext(UserContext)
+  const [onlineStatus] = useOnlineStatus();
+
+  const cartItem = useSelector((state)=>state.cart.items)
   return (
-    <div className="headerContainer">
-      <img width={"100px"} height={"100px"} src={LOGO_URL}></img>
-      <div className="navContainer">
-        <ul className="navItems">
-          <li>Online:{onlineStatus?"Active":"InActive"}</li>
-          <li><Link to="/">Home</Link> </li>
-          <li><Link to="/about">About Us</Link> </li>
-          <li><Link to="/contact">Contact Us</Link></li>
-          <li>Cart</li>
-          <button className="primary-button" onClick={()=>btnName==="Login"?setBtnName("Logout"):setBtnName("Login")} >{btnName}</button>
+    <div className="flex justify-between bg-red-700 text-slate-50 text-xl">
+      <img className="w-32 h-32" src={LOGO_URL}></img>
+      <div className="flex items-center">
+        <ul className="flex align-middle">
+          <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
+            {onlineStatus ? "🟢" : "🔴"}
+          </li>
+          <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
+            <Link to="/about">About Us</Link>
+          </li>
+          <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
+            <Link to="/contact">Contact Us</Link>
+          </li>
+          <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
+           <Link to="/cart"> Cart - {cartItem.length}</Link>
+          </li>
+          <li className="mx-1 px-4 py-2 bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer rounded-md">
+            <button
+            className=" bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700"
+              onClick={() =>
+                btnName === "Login" ? setBtnName("Logout") : setBtnName("Login")
+              }
+            >
+              {btnName}
+            </button>
+          </li>
+          <li className="mx-1 px-4 py-2">{loggedInUser}</li>
         </ul>
       </div>
     </div>

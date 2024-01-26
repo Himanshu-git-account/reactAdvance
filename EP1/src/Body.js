@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import RestaurantDetails from "./RestaurantDetails";
+import {  useContext, useEffect, useState } from "react";
+import RestaurantDetails,{withVegOnly} from "./RestaurantDetails";
 
 import { restaurantList } from "./utils/mockData";
 import ShimmerCard from "./utils/Shimmer/ShimmerCard";
 import { debounceFunc } from "./utils/commonUtils";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "./utils/Shimmer/useOnlineStatus";
+import UserContext from "./utils/UserContext";
+
 
 export const Body = () => {
   const [resList, setResList] = useState([]);
@@ -14,6 +16,9 @@ export const Body = () => {
   const [loader, setLoader] = useState(false);
 
   const [onlineStatus] = useOnlineStatus();
+  const {loggedInUser,setLoggedUser} = useContext(UserContext)
+
+  const RestaurantDetailsHOC = withVegOnly(RestaurantDetails)
 
   useEffect(() => {
     fetchData();
@@ -45,14 +50,14 @@ export const Body = () => {
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.853532&lng=77.663033&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
       );
       const jsonData = await data.json();
-      setResList((prevResList) => [
-        ...prevResList,
-        ...jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+      setResList(() => [
+   
+        ...jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants,
       ]);
-      setFilteredResList((prevResList) => [
-        ...prevResList,
-        ...jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+      setFilteredResList(() => [
+  
+        ...jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants,
       ]);
     } catch (err) {
@@ -74,22 +79,24 @@ export const Body = () => {
     setResList(newResList);
   };
 
-  if(!onlineStatus){
-    return <div>Its the network issue</div>
+  if (!onlineStatus) {
+    return <div>Its the network issue</div>;
   }
+
   return resList.length === 0 ? (
     <ShimmerCard />
   ) : (
-    <div className="bodyContainer">
-      <div className="filter">
+    <div className="bg-slate-100">
+      <div className="flex m-4">
         <div className="search-container">
           <input
             type="text"
+            className="border border-solid border-slate-600 px-4 py-2"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
           <button
-            className="filter-button"
+            className="bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer px-4 py-2"
             onClick={() => {
               const filteredList = resList.filter((res) => {
                 return res.info.name
@@ -102,17 +109,23 @@ export const Body = () => {
             Search
           </button>
         </div>
-        <button className="filter-btn" onClick={filterTopRes}>
-          Top Rated Restaurant
-        </button>
+        <div>
+          <button className="mx-4 text-slate-50 bg-slate-400 hover:text-slate-50 hover:bg-red-700 cursor-pointer px-4 py-2" onClick={filterTopRes}>
+            Top Rated Restaurant
+          </button>
+        </div>
+        <div>
+          <input  className="bg-red-700 text-slate-50 hover:bg-slate-50 hover:text-red-700 cursor-pointer px-4 py-2" type="text" value={loggedInUser} onChange={(e)=>setLoggedUser(e.target.value)} />
+        </div>
       </div>
-      <div className="resContainer">
+      <div className="flex flex-wrap">
         {filteredResList.map((restaurant) => (
-          <Link to={"/restaurant/" + restaurant.info.id}>
-            <RestaurantDetails
-              key={restaurant.info.id}
+          <Link to={"/restaurant/" + restaurant.info.id} key={restaurant.info.id}>
+            {restaurant.info.veg?<RestaurantDetailsHOC   
+              restaurantObj={restaurant}/>:   <RestaurantDetails
               restaurantObj={restaurant}
-            />
+            />}
+          
           </Link>
         ))}
       </div>
