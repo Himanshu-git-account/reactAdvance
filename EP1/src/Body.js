@@ -50,16 +50,11 @@ export const Body = () => {
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.853532&lng=77.663033&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
       );
       const jsonData = await data.json();
-      setResList(() => [
-   
-        ...jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants,
-      ]);
-      setFilteredResList(() => [
-  
-        ...jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants,
-      ]);
+      setResList(JSON.parse(JSON.stringify(jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants))
+      );
+      setFilteredResList(JSON.parse(JSON.stringify(jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants)));
     } catch (err) {
       console.log(err);
     } finally {
@@ -76,13 +71,14 @@ export const Body = () => {
 
   const filterTopRes = () => {
     const newResList = resList.filter((res) => res.info.avgRating > 4);
-    setResList(newResList);
+    setFilteredResList(newResList);
   };
 
   if (!onlineStatus) {
     return <div>Its the network issue</div>;
   }
 
+  console.log("restaurant", filteredResList,resList)
   return resList.length === 0 ? (
     <ShimmerCard />
   ) : (
